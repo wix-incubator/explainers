@@ -7,17 +7,21 @@ scroll-based one.
 
 ### Common features
 There are common characteristics to pointer-driven animations:
-- The timeline is linked to the position of the pointer relative to either the
-  target (animated) element, a container of the target, or the viewport.
-- There are some use-cases of source elements that aren't containers of the target.
+- The timeline is linked to the position of the pointer relative to (usually)
+  either the target (animated) element, a container of the target, or
+  the viewport.
 - Some effects are linked to a cartesian position of the pointer, others to
   the polar position, and others to the velocity of the pointer.
 - Timelines usually have a `[1, 1]` or `[-1, 1]` effect progress.
 - Timelines are usually centered on the target's center.
+- Effects with delayed (transitioned) progress are common.
+- Sometimes effects are linked to the velocity of the pointer.
 
 ### Prior art
-Issue opened by @bramus with more elaborate details that are also
-relevant here [#6733](https://github.com/w3c/csswg-drafts/issues/6733).
+Previous proposal by @bramus with more elaborate details, that are also
+relevant here [#6733](https://github.com/w3c/csswg-drafts/issues/6733),
+which relied on exposing a new pseudo-class for hovered element, plus
+exposing new environment variables for the position of the pointer.
 
 ### JS implementations
 Some libraries that allow this
