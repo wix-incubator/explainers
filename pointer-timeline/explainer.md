@@ -26,7 +26,7 @@ The progress of the timeline is linked to the position of the pointer from
 the start edge to the end edge of the source element or the viewport.
 
 ## Prior art
-[This previous proposal]((https://github.com/w3c/csswg-drafts/issues/6733)) by
+[This previous proposal](https://github.com/w3c/csswg-drafts/issues/6733) by
 [@bramus](https://github.com/bramus) with more elaborate details, that are also
 relevant here, which relied on exposing a new pseudo-class for hovered element,
 plus exposing new environment variables for the position of the pointer.
