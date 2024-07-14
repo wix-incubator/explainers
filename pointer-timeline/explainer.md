@@ -38,7 +38,9 @@ effect: [Parallax.js](https://matthew.wagerfield.com/parallax/),
 and [Atropos.js](https://atroposjs.com/).
 
 ## Live examples
-TBD: some examples of sites using pointer-driven animations.
+- [Pokemon Cards](https://poke-holo.simey.me/)
+- [Mouse Parallax in Wonderland](https://www.wow-showroom.com/mouse-parallax)
+- [NY Times allbirds](https://www.nytimes.com/paidpost/allbirds/the-view-from-above.html)
 
 ------------------------------
 # Concept and terminology
@@ -78,17 +80,29 @@ is at the source's center, i.e. center _is not_ shifted.
 However, if the range's center _is_ shifted, the ranges behave
 differently and produce different timelines.
 
+```
+Note: in all the following examples, the outer rectangle (red with black rounded
+border) represents the screen, the middle rectangle (green) represents the source,
+and the inner rectangle (blue) represents the target. 
+```
+
 ### Cover
 This range acts similar to radial-gradient's `farthest-side` keyword.
 The attachment range reaches either 0% or 100% at the farther edge of the
 source, and then mirrored to the other side from range's center, so that
 the attachment range is always covering the source.
 
+#### Example with center shifted to target's center:
+![Cover range with center shifted to target's center](./cover-target-center.png "animation-range: cover at target center")
+
 ### Contain
 This range acts similar to radial-gradient's `closest-side` keyword.
 The attachment range reaches either 0% or 100% at the closer edge of the
 source, and then mirrored to the other side from range's center, so that
 the attachment range is always contained within the source.
+
+#### Example with center shifted to target's center:
+![Contain range with center shifted to target's center](./contain-target-center.png "animation-range: contain at target center")
 
 ### Fill
 This range acts similar to the `object-fit`'s `fill` keyword. The attachment
@@ -97,11 +111,17 @@ so that it's stretched to fill the source from its center outwards.
 In practice this is equal to automatically set `cover` to the farthest edge
 and `contain` to the closest edge.
 
+#### Example with center shifted to target's center:
+![Fill range with center shifted to target's center](./fill-target-center.png "animation-range: fill at target center")
+
 ### Fit
 This range acts similar to the `object-fit: none` keyword. The attachment
 range reaches 0% at the start edge of the source, and 100% at the end edge,
 and maintains this size even if its center is shifted, so that it's simply
 displaced according to the center shift.
+
+#### Example with center shifted to target's center:
+![Fit range with center shifted to target's center](./fit-target-center.png "animation-range: fit at target center")
 
 ## Transitioned progress
 It's also very common to see pointer-driven animations that have a "lerp" effect
