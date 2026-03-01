@@ -2,13 +2,13 @@
 
 ## Summary
 
-This proposal introduces a new CSS property, `state-trigger`, that leverages the [animation trigger](https://drafts.csswg.org/animation-triggers-1/#triggers) infrastructure to toggle [custom states](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:state) on elements declaratively. Building on the [proposal to expand `:state()` to all elements](https://github.com/whatwg/html/issues/11466), this would allow authors to add or remove custom states based on scroll position, visibility, or user-interaction events.
+This proposal introduces a new CSS property, `state-trigger`, that leverages the [animation trigger](https://drafts.csswg.org/css-animations-2/#animation-triggers) infrastructure to toggle [custom states](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:state) on elements declaratively. Building on the [proposal to expand `:state()` to all elements](https://github.com/whatwg/html/issues/11466), this would allow authors to add or remove custom states based on scroll position, visibility, or user-interaction events.
 
 ## Motivation
 
 ### The gap between triggers and styling
 
-The animation trigger specification ([animation-triggers-1](https://drafts.csswg.org/animation-triggers-1/)) defines a powerful model of [timeline triggers](https://drafts.csswg.org/animation-triggers-1/#timeline-triggers) and [event triggers](https://drafts.csswg.org/animation-triggers-1/#event-triggers) that can control animation playback based on scroll position, viewport entry, clicks, and other interactions.
+The animation trigger specification ([animation-triggers-1](https://drafts.csswg.org/css-animations-2/#animation-triggers)) defines a powerful model of [timeline triggers](https://drafts.csswg.org/css-animations-2/#timeline-triggers) and [event triggers](https://drafts.csswg.org/css-animations-2/#event-triggers) that can control animation playback based on scroll position, viewport entry, clicks, and other interactions.
 
 However, there are many use cases where the *desired reaction* to a trigger is not an animation, but a *state change* — toggling a class-like flag on an element so that different CSS rules can apply. Today, this requires JavaScript event listeners or IntersectionObservers to add/remove classes or custom states.
 
@@ -34,7 +34,7 @@ By combining triggers with custom states, we can enable a broad class of declara
 
 ### New property: `state-trigger`
 
-A new shorthand property `state-trigger` connects a named [trigger](https://drafts.csswg.org/animation-triggers-1/#triggers) to the element it is specified on, with dedicated actions that modify the element's custom state set. This new property is a coordinated list property, allowing to set multiple triggers.
+A new shorthand property `state-trigger` connects a named [trigger](https://drafts.csswg.org/css-animations-2/#animation-triggers) to the element it is specified on, with dedicated actions that modify the element's custom state set. This new property is a coordinated list property, allowing to set multiple triggers.
 
 ```css
 state-trigger: [ [ <dashed-ident> <state-action>+ ]+ ]#
@@ -137,11 +137,11 @@ Animation type: not animatable
 
 ### Trigger resolution
 
-`state-trigger` uses the same trigger name resolution mechanism as `animation-trigger` (see [trigger-scope](https://drafts.csswg.org/animation-triggers-1/#trigger-scope)). The `<dashed-ident>` in `state-trigger` references a trigger by name, following the same scoping rules.
+`state-trigger` uses the same trigger name resolution mechanism as `animation-trigger` (see [trigger-scope](https://drafts.csswg.org/css-animations-2/#trigger-scope)). The `<dashed-ident>` in `state-trigger` references a trigger by name, following the same scoping rules.
 
 ### Trigger actions model
 
-The trigger infrastructure in [animation-triggers-1](https://drafts.csswg.org/animation-triggers-1/) is designed to be generic — as noted in the spec:
+The trigger infrastructure in [animation-triggers-1](https://drafts.csswg.org/css-animations-2/#animation-triggers) is designed to be generic — as noted in the spec:
 
 *"This design for triggers and trigger instances, and the way they're associated with triggered animations and `<animation-action>`s, is intentionally somewhat generic, intended to support using triggers for other purposes in the future."*
 
@@ -159,7 +159,7 @@ The CSS Toggles proposal had a more elaborate set of state management actions th
 
 ## API extension (imperative)
 
-Using the imperative API in [animation-triggers-1](https://drafts.csswg.org/animation-triggers-1/) for creating triggers can probably be reused here for toggling custom states, and this would allow creating state triggers programmatically, though the primary motivation for this proposal is the declarative CSS API.
+Using the imperative API in `animation-triggers-1` for creating triggers can probably be reused here for toggling custom states, and this would allow creating state triggers programmatically, though the primary motivation for this proposal is the declarative CSS API.
 
 ## Open issues/questions
 
