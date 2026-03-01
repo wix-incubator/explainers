@@ -12,7 +12,7 @@ There are common characteristics to pointer-driven animations:
   the target, or the entire viewport.
 - Some effects are linked to a cartesian position of the pointer, others to
   the polar position.
-- Timelines usually have a `[1, 1]` or `[-1, 1]` effect progress.
+- Timelines usually have a `[1, 0, 1]` or `[-1, 0, 1]` effect progress.
 - Timelines are usually centered on the target's center, regardless of the
   element containing the timeline.
 - Effects with delayed (transitioned) progress are common.
@@ -57,7 +57,7 @@ with transforms doesn't change with the animation).
 ## Attachment range's centering (center shift)
 It's common for pointer-driven animations to shift the center of
 the attachment range to a specific point, so that common animations with an
-effect progress of `[1, 1]` or `[-1, 1]` always reach `0` on that
+effect progress of `[1, 0, 1]` or `[-1, 0, 1]` always reach `0` on that
 specified point.
 Usually that point is relative to the animated element - let's call it "target" -
 rather than its source. Usually it's the target's center.
@@ -148,7 +148,7 @@ Some effects are linked to the polar coordinates of the pointer, rather than its
 cartesian ones. While it could be very useful to add a "distance" and an "angle"
 axes to the proposal, they get very complex when trying to solve their progress
 and ranges with the proposed model.
-So it's better to defer them to further iterations, or to level 2 entirely.
+So it's probably best to defer them to further iterations, or to level 2 entirely.
 
 ------------------------------
 # Proposal
