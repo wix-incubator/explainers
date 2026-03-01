@@ -20,15 +20,15 @@ By combining triggers with custom states, we can enable a broad class of declara
 
 ### Use cases
 
-1. **Scroll-triggered state**: Mark an element as `:state(--visible)` when it enters the viewport, enabling CSS-only reveal effects, lazy styling, or conditional layouts.  
+- **Scroll-triggered state**: Mark an element as `:state(--visible)` when it enters the viewport, enabling CSS-only reveal effects, lazy styling, or conditional layouts.  
      
-2. **Sticky header detection**: Set `:state(--stuck)` on a sticky element when it reaches its sticking position, enabling shadow/border changes.  
+- **Sticky header detection**: Set `:state(--stuck)` on a sticky element when it reaches its sticking position, enabling shadow/border changes.  
      
-3. **Interaction-driven toggles**: Toggle `:state(--active)` on click (and untoggle on a second click), enabling accordion, tab, or disclosure patterns.  
+- **Interaction-driven toggles**: Toggle `:state(--active)` on click (and untoggle on a second click), enabling accordion, tab, or disclosure patterns.  
      
-4. **Reading progress markers**: Mark table-of-contents items as `:state(--read)` as corresponding sections scroll past, enabling progress indicators.  
+- **Reading progress markers**: Mark table-of-contents items as `:state(--read)` as corresponding sections scroll past, enabling progress indicators.  
      
-5. **Hover/focus persistence**: Set `:state(--was-hovered)` that persists after the pointer leaves, enabling "seen" indicators or progressive disclosure.
+- **Hover/focus persistence**: Set `:state(--was-hovered)` that persists after the pointer leaves, enabling "seen" indicators or progressive disclosure.
 
 ## Proposed Solution
 
@@ -72,7 +72,7 @@ Animation type: not animatable
 
 ## Examples
 
-### 1\. Viewport entry — element becomes `:state(--visible)`
+### Viewport entry — element becomes `:state(--visible)`
 
 ```css
 /* Define a timeline trigger on the element itself */
@@ -91,7 +91,7 @@ Animation type: not animatable
 }
 ```
 
-### 2\. Viewport entry/exit — toggle a state
+### Viewport entry/exit — toggle a state
 
 ```css
 .card {
@@ -104,7 +104,7 @@ Animation type: not animatable
 }
 ```
 
-### 3\. Click toggle — accordion pattern
+### Click toggle — accordion pattern
 
 ```css
 .accordion-header {
@@ -120,25 +120,7 @@ Animation type: not animatable
 }
 ```
 
-### 4\. Sticky detection
-
-```css
-.sticky-header {
-  position: sticky;
-  top: 0;
-
-  /* A timeline trigger that activates when scroll reaches 
-     the point where the element sticks */
-  timeline-trigger: --stuck scroll() 0% / 0%;
-  state-trigger: --stuck add-state(--stuck) remove-state(--stuck);
-}
-
-.sticky-header:state(--stuck) {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-```
-
-### 5\. Hover persistence
+### Hover persistence
 
 ```css
 .tooltip-trigger {
