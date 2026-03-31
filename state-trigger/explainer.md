@@ -1,40 +1,38 @@
-# [animation-triggers-1] Proposal: Toggle Custom States Using Animation Triggers (`state-trigger`)
-
 ## Summary
 
-This proposal introduces a new CSS property, `state-trigger`, that leverages the [animation trigger](https://drafts.csswg.org/css-animations-2/#animation-triggers) infrastructure to toggle [custom states](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:state) on elements declaratively. Building on the [proposal to expand `:state()` to all elements](https://github.com/whatwg/html/issues/11466), this would allow authors to add or remove custom states based on scroll position, visibility, or user-interaction events.
+This proposal introduces a new CSS property, `state-trigger`, that leverages the [animation trigger](https://drafts.csswg.org/animation-triggers-1/) infrastructure to toggle [custom states](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:state) on elements declaratively. Building on the [proposal to expand `:state()` to all elements](https://github.com/whatwg/html/issues/11466), this would allow authors to add or remove custom states based on scroll position, visibility, or user-interaction events.
 
 ## Motivation
 
 ### The gap between triggers and styling
 
-The animation trigger specification ([animation-triggers-1](https://drafts.csswg.org/css-animations-2/#animation-triggers)) defines a powerful model of [timeline triggers](https://drafts.csswg.org/css-animations-2/#timeline-triggers) and [event triggers](https://drafts.csswg.org/css-animations-2/#event-triggers) that can control animation playback based on scroll position, viewport entry, clicks, and other interactions.
+The animation trigger specification ([animation-triggers-1](https://drafts.csswg.org/animation-triggers-1/)) defines a powerful model of [timeline triggers](https://drafts.csswg.org/animation-triggers-1/#timeline-triggers) and [event triggers](https://drafts.csswg.org/animation-triggers-1/#event-triggers) that can control animation playback based on scroll position, viewport entry, clicks, and other interactions.
 
 However, there are many use cases where the *desired reaction* to a trigger is not an animation, but a *state change* — toggling a class-like flag on an element so that different CSS rules can apply. Today, this requires JavaScript event listeners or IntersectionObservers to add/remove classes or custom states.
 
 ### Custom states are the right primitive
 
-CSS [custom states](https://html.spec.whatwg.org/multipage/semantics-other.html#selector-custom) (`:state()`) provide a mechanism for elements to expose named boolean states that can be matched by CSS selectors. They are already supported for custom elements via `ElementInternals.states` (`CustomStateSet`), and there is an [active proposal](https://github.com/whatwg/html/issues/11466) to expand `Element.prototype.states` to all elements.
+CSS [custom states](https://html.spec.whatwg.org/multipage/semantics-other.html#selector-custom) ([`:state()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:state)) provide a mechanism for elements to expose named boolean states that can be matched by CSS selectors. They are already supported for custom elements via `ElementInternals.states` ([`CustomStateSet`](https://developer.mozilla.org/en-US/docs/Web/API/CustomStateSet)), and there is an [active proposal](https://github.com/whatwg/html/issues/11466) to expand `Element.prototype.states` to all elements.
 
 By combining triggers with custom states, we can enable a broad class of declarative, CSS-only interactions that currently require JavaScript.
 
 ### Use cases
 
-- **Scroll-triggered state**: Mark an element as `:state(--visible)` when it enters the viewport, enabling CSS-only reveal effects, lazy styling, or conditional layouts.  
-     
-- **Sticky header detection**: Set `:state(--stuck)` on a sticky element when it reaches its sticking position, enabling shadow/border changes.  
-     
-- **Interaction-driven toggles**: Toggle `:state(--active)` on click (and untoggle on a second click), enabling accordion, tab, or disclosure patterns.  
-     
-- **Reading progress markers**: Mark table-of-contents items as `:state(--read)` as corresponding sections scroll past, enabling progress indicators.  
-     
+- **Scroll-triggered state**: Mark an element as `:state(--visible)` when it enters the viewport, enabling CSS-only reveal effects, lazy styling, or conditional layouts.
+
+- **Sticky header detection**: Set `:state(--stuck)` on a sticky element when it reaches its sticking position, enabling shadow/border changes.
+
+- **Interaction-driven toggles**: Toggle `:state(--active)` on click (and untoggle on a second click), enabling accordion, tab, or disclosure patterns.
+
+- **Reading progress markers**: Mark table-of-contents items as `:state(--read)` as corresponding sections scroll past, enabling progress indicators.
+
 - **Hover/focus persistence**: Set `:state(--was-hovered)` that persists after the pointer leaves, enabling "seen" indicators or progressive disclosure.
 
 ## Proposed Solution
 
 ### New property: `state-trigger`
 
-A new shorthand property `state-trigger` connects a named [trigger](https://drafts.csswg.org/css-animations-2/#animation-triggers) to the element it is specified on, with dedicated actions that modify the element's custom state set. This new property is a coordinated list property, allowing to set multiple triggers.
+A new shorthand property `state-trigger` connects a named [trigger](https://drafts.csswg.org/animation-triggers-1/#triggers) to the element it is specified on, with dedicated actions that modify the element's custom state set. This new property is a coordinated list property, allowing to set multiple triggers.
 
 ```css
 state-trigger: [ [ <dashed-ident> <state-action>+ ]+ ]#
@@ -42,7 +40,7 @@ state-trigger: [ [ <dashed-ident> <state-action>+ ]+ ]#
 
 Where:
 
-- `<dashed-ident>` references a named trigger (defined via `timeline-trigger` or `event-trigger` on some element)  
+- `<dashed-ident>` references a named trigger (defined via `timeline-trigger` or `event-trigger` on some element)
 - `<state-action>` specifies what state modifications to perform when the trigger activates
 
 ### The `<state-action>` type
@@ -51,8 +49,8 @@ Where:
 <state-action> = add-state(<dashed-ident>) | remove-state(<dashed-ident>) | toggle-state(<dashed-ident>) | none
 ```
 
-- **`add-state(<dashed-ident>)`** — Adds the specified custom state to the element's state set.  
-- **`remove-state(<dashed-ident>)`** — Removes the specified custom state from the element's state set.  
+- **`add-state(<dashed-ident>)`** — Adds the specified custom state to the element's state set.
+- **`remove-state(<dashed-ident>)`** — Removes the specified custom state from the element's state set.
 - **`toggle-state(<dashed-ident>)`** — Adds the state if absent, removes it if present.
 
 **Note:** another option is to use `custom-ident`s instead if there’s no risk of name clash and we can achieve a similar syntax to custom states currently used in JS.
@@ -137,11 +135,11 @@ Animation type: not animatable
 
 ### Trigger resolution
 
-`state-trigger` uses the same trigger name resolution mechanism as `animation-trigger` (see [trigger-scope](https://drafts.csswg.org/css-animations-2/#trigger-scope)). The `<dashed-ident>` in `state-trigger` references a trigger by name, following the same scoping rules.
+`state-trigger` uses the same trigger name resolution mechanism as `animation-trigger` (see [trigger-scope](https://drafts.csswg.org/animation-triggers-1/#trigger-scope)). The `<dashed-ident>` in `state-trigger` references a trigger by name, following the same scoping rules.
 
 ### Trigger actions model
 
-The trigger infrastructure in [animation-triggers-1](https://drafts.csswg.org/css-animations-2/#animation-triggers) is designed to be generic — as noted in the spec:
+The trigger infrastructure in [animation-triggers-1](https://drafts.csswg.org/animation-triggers-1/#triggers) is designed to be generic — as noted in the spec:
 
 *"This design for triggers and trigger instances, and the way they're associated with triggered animations and `<animation-action>`s, is intentionally somewhat generic, intended to support using triggers for other purposes in the future."*
 
@@ -163,6 +161,11 @@ Using the imperative API in `animation-triggers-1` for creating triggers can pro
 
 ## Open issues/questions
 
-* All names are bikeshedable.  
-* Whether to use `custom-ident` or `dashed-ident` in `<state-action>`.  
+* A11y concerns in general - assuming declaring state change based on interactions that is only declared by CSS is currently problematic? Can we solve this in the internally in the UA? Perhaps with additional HTML aria attributes?
+* All names are bikeshedable.
+* Whether to use `custom-ident` or `dashed-ident` in `<state-action>`.
 * Whether we want a dedicated imperative API for this feature.
+
+----------
+
+/cc @flackr @DavMila @LeaVerou @tabatkins @mirisuzanne 
